@@ -1,0 +1,40 @@
+FileInputStream file = new FileInputStream(new File("D:\\Rudra_testing\\sales.xlsx"));
+        FileOutputStream fout = new FileOutputStream("D:\\Rudra_testing\\salestest.xlsx");
+        XSSFWorkbook sales = new XSSFWorkbook(file);
+        Sheet s = sales.getSheetAt(0);
+        int row_length = s.getPhysicalNumberOfRows();
+        System.out.println(row_length);
+        int itr = 1;
+        for (Row r : s) {
+            int blk = 0;
+            for (Cell c : r) {
+                if ( (c.getRowIndex() >= 5) && (c.getColumnIndex() == 0) ) 
+                //if ( (c.getRowIndex() >=5) && (c.getRowIndex() <= 7))
+                {
+                    if (c.getCellType() == Cell.CELL_TYPE_BLANK) {
+                        blk++;
+                        //continue;
+                    }
+                    switch(c.getCellType()) {
+                        case Cell.CELL_TYPE_BLANK:
+                        System.out.print(blk);
+                        break;
+                        case Cell.CELL_TYPE_BOOLEAN: 
+                        System.out.print(c.getBooleanCellValue() + "\t\t");
+                        break;
+                        case Cell.CELL_TYPE_NUMERIC:
+                        System.out.print(c.getDateCellValue().toString() + "\t\t");
+                        break;
+                        case Cell.CELL_TYPE_STRING:
+                        System.out.print(c.getStringCellValue() + "\t\t");
+                        break;
+                        default:
+                        System.out.print("there seems to be something wrong");
+                        break;
+                    }
+                }
+                }
+                System.out.println(blk);
+                itr++;
+                if(itr == 100) {
+                 break;
